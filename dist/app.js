@@ -1,15 +1,16 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const app = (0, express_1.default)();
-app.get("/", (req, res) => {
-    console.log("request", req, "response", res);
-    res.send("Hello from server!!!");
+import express from "express";
+import { userRoutes } from "./user/userRoutes.js";
+const app = express();
+app.use(express.json());
+// Set up todos router
+const todosRouter = express.Router();
+app.use("/", todosRouter); // Optional prefix like /api
+app.use("/", userRoutes);
+todosRouter.get("/todo", (req, res) => {
+    res.send([{ id: 1, title: "Learn TypeScript", completed: false }]);
 });
-exports.default = app;
-//server --> server handling like -starting,closing error handling of server.only related to server
-//app --> routing handle,middleware,route related error handling
-//app folder -->app business logic handling like create read update delete ,database related work
+// Root route
+app.get("/", (req, res) => {
+    res.send("Hey Hello from server. I am changing by nodemon!!!");
+});
+export default app;

@@ -1,15 +1,13 @@
 import express, { Application, Request, Response } from "express";
-
+import { todosRouter } from "./todos/todos.js";
+import { userRoutes } from "./user/userRoutes.js";
 const app: Application = express();
 app.use(express.json());
 
 // Set up todos router
-const todosRouter = express.Router();
-app.use("/", todosRouter); // Optional prefix like /api
 
-todosRouter.get("/todo", (req: Request, res: Response) => {
-  res.send([{ id: 1, title: "Learn TypeScript", completed: false }]);
-});
+app.use("/", todosRouter); // Optional prefix like /api
+app.use("/", userRoutes);
 
 // Root route
 app.get("/", (req: Request, res: Response) => {
